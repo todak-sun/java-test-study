@@ -1,9 +1,9 @@
 package io.todak.study.javateststudy.junit;
 
-import io.todak.study.javateststudy.Study;
-import io.todak.study.javateststudy.StudyStatus;
 import io.todak.study.javateststudy.annotation.FastTest;
 import io.todak.study.javateststudy.annotation.SlowTest;
+import io.todak.study.javateststudy.domain.Study;
+import io.todak.study.javateststudy.study.StudyStatus;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -70,7 +70,7 @@ class StudyTest {
                 () -> assertNotNull(study),
                 () -> Assertions.assertEquals(StudyStatus.DRAFT, study.getStatus(),
                         () -> "스터디를 처음 만들면 상태값이 DRAFT여야 한다."),
-                () -> assertTrue(study.getLimit() > 0,
+                () -> assertTrue(study.getLimitCount() > 0,
                         () -> "스터디 최대 참석 가능인원은 항상 0보다 커야한다."));
     }
 
