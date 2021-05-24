@@ -2,9 +2,7 @@ package io.todak.study.javateststudy.domain;
 
 import io.todak.study.javateststudy.study.StudyStatus;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,7 +14,12 @@ public class Study {
     private int limitCount;
     private String name;
     private LocalDateTime openedDateTime;
-    private Long ownerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member owner;
+
+    protected Study() {
+    }
 
     public Study(int limit, String name) {
         this.limitCount = limit;
@@ -35,8 +38,12 @@ public class Study {
         this.status = StudyStatus.DRAFT;
     }
 
-    public void setOwner(Member member) {
-        this.ownerId = member.getId();
+    public Member getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Member owner) {
+        this.owner = owner;
     }
 
     public StudyStatus getStatus() {

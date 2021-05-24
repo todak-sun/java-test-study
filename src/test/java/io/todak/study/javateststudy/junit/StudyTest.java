@@ -117,9 +117,11 @@ class StudyTest {
     }
 
 
-    @Test
+    @DisplayName("name에 변수를 담자")
+    @ParameterizedTest(name = "{index} {displayName} name={0}")
+    @ValueSource(strings = {"이름", "이름2", "이름3"})
     public void crate_test_2(String name) {
-        log.info("test2");
+        log.info("test2 : {}", name);
     }
 
     @Disabled
