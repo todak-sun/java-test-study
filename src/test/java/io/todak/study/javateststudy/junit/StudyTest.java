@@ -78,7 +78,7 @@ class StudyTest {
     @Test
     public void timeout() {
         assertTimeoutPreemptively(Duration.ofMillis(100), () -> {
-            Thread.sleep(101);
+            Thread.sleep(90);
             // assertTimeoutPreemptively
             // 안의 코드는
             // 별도의 Thread를 사용하기 때문에,

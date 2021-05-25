@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -151,6 +153,67 @@ class StudyServiceTest {
         inOrder.verify(memberService).notify(member);
 
         verifyNoMoreInteractions(memberService);
+    }
+
+    @DisplayName("BDD Style로 테스트코드 작성")
+    @Test
+    public void test_with_BDD() {
+        //given
+        studyService = new StudyService(memberService, studyRepository);
+        Long memberId = 1L;
+
+        Member member = new Member();
+        member.setEmail("tjsdydwn@gmail.com");
+        member.setId(memberId);
+
+        Study study = new Study(10, "테스트");
+
+        given(memberService.findById(memberId))
+                .willReturn(Optional.of(member));
+        given(studyRepository.save(study))
+                .willReturn(study);
+
+        //when
+        studyService.createNewStudy(memberId, study);
+
+        //then
+        assertEquals(member, study.getOwner());
+        then(memberService).should(times(1)).notify(study);
+        then(memberService).should(times(1)).notify(member);
+
+        InOrder inOrder = inOrder(memberService);
+
+        then(memberService).should(inOrder).notify(study);
+        then(memberService).should(inOrder).notify(member);
+
+        then(memberService).shouldHaveNoMoreInteractions();
+
+    }
+
+    @DisplayName("연습문제[2] - 다른 사용자가 볼 수 있도록 스터디를 공개한다.")
+    @Test
+    void openStudyTest() {
+        //given
+        studyService = new StudyService(memberService, studyRepository);
+        Study study = new Study(10, "자바 테스트");
+
+        //TODO studyRepository Mock 객체의 save 메서드 호출 시 study 를 리턴한다.
+        given(studyRepository.save(study))
+                .willReturn(study);
+
+        //when
+        studyService.openStudy(study);
+
+        //then
+        //TODO study의 status가 OPEND로 변경됐는지 확인
+        assertEquals(study.getStatus(), StudyStatus.OPEND);
+
+        //TODO study의 opendDateTime이 null이 아닌지 확인
+        assertNotNull(study.getOpenedDateTime());
+
+        //TODO memberService의 notify(study)가 호출 됐는지 확인.
+        then(memberService).should(times(1)).notify(study);
+
     }
 
 }

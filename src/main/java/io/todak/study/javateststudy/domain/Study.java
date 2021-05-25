@@ -35,7 +35,7 @@ public class Study {
 
     public void open() {
         this.openedDateTime = LocalDateTime.now();
-        this.status = StudyStatus.DRAFT;
+        this.status = StudyStatus.OPEND;
     }
 
     public Member getOwner() {
@@ -52,5 +52,9 @@ public class Study {
 
     public int getLimitCount() {
         return limitCount;
+    }
+
+    public LocalDateTime getOpenedDateTime() {
+        return openedDateTime;
     }
 }
