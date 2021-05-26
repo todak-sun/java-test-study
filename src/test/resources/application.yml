@@ -3,8 +3,10 @@ spring:
     activate:
       on-profile: test
   datasource:
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:postgresql:///studytest
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:15432/studytest
+    username: todak
+    password: todak
   jpa:
     hibernate:
       ddl-auto: create-drop
